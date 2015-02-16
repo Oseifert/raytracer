@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E88B294C-E251-49D2-A2C0-15A23A28E701</string>
+	<key>IDESourceControlProjectName</key>
+	<string>rt2015</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>06DA7FA971ED90789AB1B68883A7429A90E0C86C</key>
+		<string>https://github.com/Oseifert/raytracer.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>rt2015.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>06DA7FA971ED90789AB1B68883A7429A90E0C86C</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Oseifert/raytracer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>06DA7FA971ED90789AB1B68883A7429A90E0C86C</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>06DA7FA971ED90789AB1B68883A7429A90E0C86C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>raytracer</string>
+		</dict>
+	</array>
+</dict>
+</plist>
