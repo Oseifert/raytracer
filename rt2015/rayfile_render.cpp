@@ -26,6 +26,21 @@ void RayFile::raytrace (Image* image)
     // Hint: check out camera object, which is part of RayFile
     // Hint: the half height angle is input in degrees but trig function require angles in radians
     // RAY_CASTING TODO
+    
+    Camera* camera = getCamera();
+    Point3d cameraPos = camera->getPos();
+    Vector3d cameraDir = camera->getDir();
+    Vector3d upVector = camera->getUp();
+    Vector3d rightVector = camera->getRight();
+    
+    double halfHeightAngle = camera->getHalfHeightAngle();
+    double halfAngleInRad = deg2rad(halfHeightAngle);
+    
+    double distance = (imageHeight/2)/(tan(halfAngleInRad));
+    
+    Point3d center = cameraPos + (distance * cameraDir);
+    Point3d topLeft = center + ((imageHeight/2) * upVector) + ((imageWidth/2) * ((-1)*(rightVector)));
+    
 
 	// for printing progress to stderr...
 	double nextMilestone = 1.0;
@@ -41,12 +56,23 @@ void RayFile::raytrace (Image* image)
 
             // Compute the ray to trace
             Rayd theRay;
+            Vector3d rayDir;
     
             // RAY_CASTING TODO
-            // Compute and set the starting poisition and direction of the ray through pixel i,j
+            // Compute and set the starting position and direction of the ray through pixel i,j
             // HINT: be sure to normalize the direction vector
             // RAY_CASTING TODO
 	
+            theRay.setPos(cameraPos);
+            Point3d pixelPoint = topLeft +(i * rightVector) - (j*upVector);
+            
+            rayDir[0] = pixelPoint[0]-cameraPos[0];
+            rayDir[1] = pixelPoint[1]-cameraPos[1];
+            rayDir[2] = pixelPoint[2]-cameraPos[2];
+            rayDir.normalize();
+            
+            theRay.setDir(rayDir);
+            
 
 			// get the color at the closest intersection point
 

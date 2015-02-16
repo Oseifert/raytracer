@@ -58,9 +58,17 @@ double Group::intersect (Intersection& intersectionInfo)
 		// Distance for the current object
 		double currDist = (*sg)->intersect(tempInfo);
 
+        
+        
         // RAY_CASTING TODO (Intersection)
 		// In case of a new closest intersection, update alpha a localInfo
         // RAY_CASTING TODO (Intersection)
+        double localDist = (*sg)->intersect(localInfo);
+        
+        if(currDist < localDist){
+            localInfo.theRay = tempInfo.theRay;
+        }
+        
 	}
 
     // RAY_CASTING TODO (sphere/triangle intersection and transformation)
