@@ -36,7 +36,10 @@ double Sphere::intersect (Intersection& intersectionInfo)
 	*		center of the sphere
 	*	r is the radius of the sphere
 	*/
-
+    
+    
+    
+    
     double alpha=-1;
     
     // RAY_CASTING TODO (sphere intersection)

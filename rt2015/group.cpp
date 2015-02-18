@@ -37,6 +37,11 @@ double Group::intersect (Intersection& intersectionInfo)
     
     // RAY_CASTING TODO (Transformations)
     // transform localInfo.theRay into local coordinates
+    
+    
+    localInfo.theRay = transform * localInfo.theRay;
+    
+    
     // RAY_CASTING TODO (Transformations)
 
 
@@ -57,17 +62,20 @@ double Group::intersect (Intersection& intersectionInfo)
         
 		// Distance for the current object
 		double currDist = (*sg)->intersect(tempInfo);
-
         
+        if(alpha == -1){
+            alpha = currDist;
+        }
+        else if (currDist<alpha){
+            alpha = currDist;
+            localInfo = tempInfo;
+        }
         
         // RAY_CASTING TODO (Intersection)
 		// In case of a new closest intersection, update alpha a localInfo
         // RAY_CASTING TODO (Intersection)
-        double localDist = (*sg)->intersect(localInfo);
         
-        if(currDist < localDist){
-            localInfo.theRay = tempInfo.theRay;
-        }
+
         
 	}
 
@@ -78,6 +86,15 @@ double Group::intersect (Intersection& intersectionInfo)
     // recompute alpha in parent's coordinate system
     // RAY_CASTING TODO (sphere/triangle intersection and transformation)
 
+    if(alpha != -1){
+        localInfo.theRay = invTransform * localInfo.theRay;
+        localInfo.normal =  invTransposeTransform.multDir(localInfo.normal);
+        
+        alpha = sqrt(pow(localInfo.iCoordinate[0] + localInfo.theRay.getPos()[0],2) +
+                     pow(localInfo.iCoordinate[1] + localInfo.theRay.getPos()[1],2) +
+                     pow(localInfo.iCoordinate[2] + localInfo.theRay.getPos()[2],2));
+    }
+    
     return alpha;
 }
 
