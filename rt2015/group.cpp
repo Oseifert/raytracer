@@ -86,6 +86,7 @@ double Group::intersect (Intersection& intersectionInfo)
     // recompute alpha in parent's coordinate system
     // RAY_CASTING TODO (sphere/triangle intersection and transformation)
 
+
     if(alpha != -1){
         localInfo.theRay = invTransform * localInfo.theRay;
         localInfo.normal =  invTransposeTransform.multDir(localInfo.normal);

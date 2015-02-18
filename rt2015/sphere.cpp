@@ -29,7 +29,7 @@ double Sphere::intersect (Intersection& intersectionInfo)
     * The first visible intersection point is at alpha along
     * the ray where
 	*	alpha is the smallest non-negative real root of
-	*	||v||^2 alpha^2 - 2 (u dot v)alpha + ||u||^2 - r^2
+	*	0=||v||^2 alpha^2 - 2 (u dot v)alpha + ||u||^2 - r^2
 	*	where 
 	*	v is the unit direction vector of intersectionInfo.theRay
 	*   u is the vector for the start of intersectionInfo.theRay to the
@@ -38,9 +38,55 @@ double Sphere::intersect (Intersection& intersectionInfo)
 	*/
     
     
+    Vector3d v = intersectionInfo.theRay.getDir();
+    Vector3d u;
+    u[0] = center[0] - intersectionInfo.theRay.getPos()[0];
+    u[1] = center[1] - intersectionInfo.theRay.getPos()[1];
+    u[2] = center[2] - intersectionInfo.theRay.getPos()[2];
     
+    double r = radius;
+    
+    double a = pow(v.length(), 2);
+    double b = (-2)*(u.dot(v));
+    double c = pow(u.length(),2) - pow(r, 2);
+    
+    double d = (b*b) - (4*a*c);
+    
+    double root1;
+    double root2;
+    
+    if(d>=0){
+        root1 = (-b+sqrt(d))/(2*a);
+        root2 = (-b-sqrt(d))/(2*a);
+    }
+    else{
+        return -1;
+    }
     
     double alpha=-1;
+    alpha = min(root1, root2);
+    
+   
+    intersectionInfo.iCoordinate = intersectionInfo.theRay.getPos() + (alpha * intersectionInfo.theRay.getDir());
+    
+    intersectionInfo.normal[0] = intersectionInfo.iCoordinate[0] - center[0];
+    intersectionInfo.normal[1] = intersectionInfo.iCoordinate[1] - center[1];
+    intersectionInfo.normal[2] = intersectionInfo.iCoordinate[2] - center[2];
+    
+    intersectionInfo.normal.normalize();
+    
+    intersectionInfo.material = material;
+    
+    intersectionInfo.textured = textured;
+    
+//    intersectionInfo.texCoordinate = texCoordinate;
+    
+    intersectionInfo.entering = true;
+    
+    if(intersectionInfo.normal.dot(v) > 0){
+        intersectionInfo.normal *= -1;
+        intersectionInfo.entering = false;
+    }
     
     // RAY_CASTING TODO (sphere intersection)
     // Determine if intersectionInfo.theRay intersects the sphere in front of the camera
