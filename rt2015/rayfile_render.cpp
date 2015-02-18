@@ -65,10 +65,11 @@ void RayFile::raytrace (Image* image)
 	
             theRay.setPos(cameraPos);
             Point3d pixelPoint = topLeft +(i * rightVector) - (j*upVector);
-            
-            rayDir[0] = pixelPoint[0]-cameraPos[0];
-            rayDir[1] = pixelPoint[1]-cameraPos[1];
-            rayDir[2] = pixelPoint[2]-cameraPos[2];
+
+            rayDir = pixelPoint-cameraPos;
+//            rayDir[0] = pixelPoint[0]-cameraPos[0];
+//            rayDir[1] = pixelPoint[1]-cameraPos[1];
+//            rayDir[2] = pixelPoint[2]-cameraPos[2];
             rayDir.normalize();
             
             theRay.setDir(rayDir);

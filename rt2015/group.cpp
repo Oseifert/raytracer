@@ -65,6 +65,7 @@ double Group::intersect (Intersection& intersectionInfo)
         
         if(alpha == -1){
             alpha = currDist;
+            localInfo = tempInfo;
         }
         else if (currDist<alpha){
             alpha = currDist;
@@ -96,6 +97,8 @@ double Group::intersect (Intersection& intersectionInfo)
                      pow(localInfo.iCoordinate[2] + localInfo.theRay.getPos()[2],2));
     }
     
+    
+    intersectionInfo = localInfo;
     return alpha;
 }
 

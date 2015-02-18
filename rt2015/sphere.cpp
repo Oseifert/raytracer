@@ -40,9 +40,11 @@ double Sphere::intersect (Intersection& intersectionInfo)
     
     Vector3d v = intersectionInfo.theRay.getDir();
     Vector3d u;
-    u[0] = center[0] - intersectionInfo.theRay.getPos()[0];
-    u[1] = center[1] - intersectionInfo.theRay.getPos()[1];
-    u[2] = center[2] - intersectionInfo.theRay.getPos()[2];
+    u = center - intersectionInfo.theRay.getPos();
+    
+//    u[0] = center[0] - intersectionInfo.theRay.getPos()[0];
+//    u[1] = center[1] - intersectionInfo.theRay.getPos()[1];
+//    u[2] = center[2] - intersectionInfo.theRay.getPos()[2];
     
     double r = radius;
     
@@ -59,25 +61,41 @@ double Sphere::intersect (Intersection& intersectionInfo)
         root1 = (-b+sqrt(d))/(2*a);
         root2 = (-b-sqrt(d))/(2*a);
     }
+    //WE NEED TO ACCOUNT FOR NEGATIVE ROOTS
+    
     else{
         return -1;
     }
-    
+ 
     double alpha=-1;
-    alpha = min(root1, root2);
+    
+    if(root1<0 && root2>0){
+        alpha = root2;
+    }
+    else if (root1>0 && root2<0){
+        alpha = root1;
+    }
+    else if (root1>0 && root2>0){
+        alpha = min(root1,root2);
+    }
+
     
    
     intersectionInfo.iCoordinate = intersectionInfo.theRay.getPos() + (alpha * intersectionInfo.theRay.getDir());
     
-    intersectionInfo.normal[0] = intersectionInfo.iCoordinate[0] - center[0];
-    intersectionInfo.normal[1] = intersectionInfo.iCoordinate[1] - center[1];
-    intersectionInfo.normal[2] = intersectionInfo.iCoordinate[2] - center[2];
+    intersectionInfo.normal = intersectionInfo.iCoordinate - center;
+    
+    //we had this before
+//    intersectionInfo.normal[0] = intersectionInfo.iCoordinate[0] - center[0];
+//    intersectionInfo.normal[1] = intersectionInfo.iCoordinate[1] - center[1];
+//    intersectionInfo.normal[2] = intersectionInfo.iCoordinate[2] - center[2];
     
     intersectionInfo.normal.normalize();
     
     intersectionInfo.material = material;
     
-    intersectionInfo.textured = textured;
+    //dont' need textures yet.
+    //intersectionInfo.textured = textured;
     
 //    intersectionInfo.texCoordinate = texCoordinate;
     
