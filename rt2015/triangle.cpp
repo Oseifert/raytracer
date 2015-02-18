@@ -34,6 +34,13 @@ double Triangle::intersect (Intersection& intersectionInfo)
     // (2) test if intersection point is in triangle
     // (3) compute distance from start of ray to intersection point & normal in direction of incoming ray
 
+//    1. check if n dot v = 0; if so return -1
+//        2. next alpha = (n dot u) / (n dot v)
+//        3. if alpha <0 there is no intersection, return -1
+//            4. next you use alpha to solve for beta and gamma. (note, you should pre-solve the system of equations so basically you have beta = some function of alpha, v, us, w1, w2 and
+//            gamma = some function of alpha, v, u, w1, w2, beta
+//    5. test that beta>=0, gamma>=0 and beta+gamma<=1. if so you have an intersection point -- if not return -1
+    
 	return -1;
 }
 
