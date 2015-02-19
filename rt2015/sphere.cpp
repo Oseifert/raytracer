@@ -97,7 +97,7 @@ double Sphere::intersect (Intersection& intersectionInfo)
     //dont' need textures yet.
     //intersectionInfo.textured = textured;
     
-//    intersectionInfo.texCoordinate = texCoordinate;
+    //intersectionInfo.texCoordinate = texCoordinate;
     
     intersectionInfo.entering = true;
     

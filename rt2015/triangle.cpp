@@ -41,6 +41,47 @@ double Triangle::intersect (Intersection& intersectionInfo)
 //            gamma = some function of alpha, v, u, w1, w2, beta
 //    5. test that beta>=0, gamma>=0 and beta+gamma<=1. if so you have an intersection point -- if not return -1
     
+    Vector3d vectorV = intersectionInfo.theRay.getDir();
+    Vector3d u = v[0] - intersectionInfo.theRay.getPos();
+    
+    if(n.dot(vectorV)==0){
+        return -1;
+    }
+    
+    double alpha = (n.dot(u))/(n.dot(vectorV));
+    
+    if(alpha<0){
+        return -1;
+    }
+    
+    Vector3d w1 = v[1] -v[0];
+    Vector3d w2 = v[2]-v[0];
+    double w1LS = w1.dot(w1);
+    double w2LS = w2.dot(w2);
+    Vector3d avn = (alpha*vectorV) -n;
+    
+    double beta = ((w2LS * avn.dot(w1)) - (w1.dot(w2)*(avn.dot(w2))))  /
+                    ((w2LS * w1LS)- pow(w1.dot(w2),2));
+    
+    double gamma = (avn.dot(w2) - beta * w1.dot(w2))  /
+                    (w2LS);
+    
+    if(beta>=0 && gamma>=0 && (beta+gamma) <=1){
+        
+        intersectionInfo.iCoordinate = intersectionInfo.theRay.getPos() + (alpha * intersectionInfo.theRay.getDir());
+        
+        intersectionInfo.normal = n.normalize();
+        
+        if(n.dot(intersectionInfo.iCoordinate -
+                 intersectionInfo.theRay.getPos()) > 0){
+            intersectionInfo.normal *=-1;
+        }
+        
+        intersectionInfo.material = material;
+        
+        return alpha;
+    }
+    
 	return -1;
 }
 
