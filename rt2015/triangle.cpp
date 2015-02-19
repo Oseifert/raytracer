@@ -73,7 +73,7 @@ double Triangle::intersect (Intersection& intersectionInfo)
     Vector3d w2 = v[2]-v[0];
     double w1LS = w1.dot(w1);
     double w2LS = w2.dot(w2);
-    Vector3d avn = (alpha*vectorV) -n;
+    Vector3d avn = (alpha*vectorV) -u;
     
     double beta = ((w2LS * avn.dot(w1)) - (w1.dot(w2)*(avn.dot(w2))))  /
                     ((w2LS * w1LS)- pow(w1.dot(w2),2));
