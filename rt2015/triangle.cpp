@@ -43,6 +43,7 @@ double Triangle::intersect (Intersection& intersectionInfo)
     
     Vector3d vectorV = intersectionInfo.theRay.getDir();
     Vector3d u = v[0] - intersectionInfo.theRay.getPos();
+    vectorV.normalize();
     
     if(n.dot(vectorV)==0){
         return -1;
@@ -53,6 +54,20 @@ double Triangle::intersect (Intersection& intersectionInfo)
     if(alpha<0){
         return -1;
     }
+
+    
+//    Vector3d w1 = v[1] -v[0];
+//    Vector3d w2 = v[2]-v[0];
+//    Vector3d A = (alpha*vectorV)-n;
+//    double A1 = A.dot(w1);
+//    double A2 = A.dot(w2);
+//    double w1w1 = w1.dot(w1);
+//    double w2w2 = w2.dot(w2);
+//    double w1w2 = w1.dot(w2);
+//    
+//    double beta = (A1 - w1w2*((A2 - (A1*w1w2)/w1w1)/(w2w2 - w1w2 * w1w2 / w1w1))) / w1w1;
+//    
+//    double gamma = (A2 - (A1 * w1w2)/w1w1)/(w2w2 - w1w2 * w1w2 / w1w1);
     
     Vector3d w1 = v[1] -v[0];
     Vector3d w2 = v[2]-v[0];
@@ -68,7 +83,7 @@ double Triangle::intersect (Intersection& intersectionInfo)
     
     if(beta>=0 && gamma>=0 && (beta+gamma) <=1){
         
-        intersectionInfo.iCoordinate = intersectionInfo.theRay.getPos() + (alpha * intersectionInfo.theRay.getDir());
+        intersectionInfo.iCoordinate = intersectionInfo.theRay.getPos() + (alpha * vectorV);
         
         intersectionInfo.normal = n.normalize();
         
@@ -78,7 +93,7 @@ double Triangle::intersect (Intersection& intersectionInfo)
         }
         
         intersectionInfo.material = material;
-        
+        intersectionInfo.entering = true;
         return alpha;
     }
     

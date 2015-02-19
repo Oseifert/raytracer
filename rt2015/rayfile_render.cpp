@@ -36,10 +36,10 @@ void RayFile::raytrace (Image* image)
     double halfHeightAngle = camera->getHalfHeightAngle();
     double halfAngleInRad = deg2rad(halfHeightAngle);
     
-    double distance = (imageHeight/2)/(tan(halfAngleInRad));
+    double distance = (imageHeight/2.0)/(tan(halfAngleInRad));
     
     Point3d center = cameraPos + (distance * cameraDir);
-    Point3d topLeft = center + ((imageHeight/2) * upVector) + ((imageWidth/2) * ((-1)*(rightVector)));
+    Point3d topLeft = center + ((imageHeight/2) * upVector) - ((imageWidth/2) * ((rightVector)));
     
 
 	// for printing progress to stderr...
@@ -64,7 +64,7 @@ void RayFile::raytrace (Image* image)
             // RAY_CASTING TODO
 	
             theRay.setPos(cameraPos);
-            Point3d pixelPoint = topLeft +(i * rightVector) - (j*upVector);
+            Point3d pixelPoint = topLeft +((i+.5) * rightVector) - ((j+.5)*upVector);
 
             rayDir = pixelPoint-cameraPos;
 //            rayDir[0] = pixelPoint[0]-cameraPos[0];
@@ -73,7 +73,7 @@ void RayFile::raytrace (Image* image)
             rayDir.normalize();
             
             theRay.setDir(rayDir);
-            
+            theRay.setPos(cameraPos);
 
 			// get the color at the closest intersection point
 
