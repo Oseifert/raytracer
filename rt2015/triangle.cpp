@@ -18,7 +18,7 @@ Triangle::~Triangle ()
 double Triangle::intersect (Intersection& intersectionInfo)
 {
 	/*
-	* This method solves for inersection between intersectionInfo.theRay and
+	* This method solves for intersection between intersectionInfo.theRay and
 	* the triangle. 
 	*   If there is no intersection OR if the ray lies in the
 	*	plane containing the triangle we return -1;
