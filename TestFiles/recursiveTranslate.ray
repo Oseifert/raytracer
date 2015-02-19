@@ -1,6 +1,6 @@
-#version HMCCS155FALL2002
+#version HMCCS155FALL2005
 #camera
-0.0     5.0     5.0 	// position
+0.0     0.0     10.0 	// position
 0.0    0.0	-1.0 	// facing
 0.0     1.0     0.0 	// up
 20.0 			// halfHeightAngle
@@ -22,23 +22,34 @@
 
 #material -n black  --
 0.0     0.0     0.0 	// ambient
-1.0     0.0     0.0 	// diffuse
+0.0     0.0     0.0 	// diffuse
 0.0     0.0     0.0 	// specular
 0.0     0.0     0.0 	// emissive
 0.0     0.0         	// kspec, ktrans
 1.0                	// refind
 
-#group_begin -n first —
-#translate 0 0 -5
-
-#group_begin -n second -
-#translate 0 0 -10
-
-#group_begin -n third -
-#translate 0 0 -10
-
-#group_begin -n fourth -
+#group_begin -n first --
 #translate 0 0 -10
 
 
+#group_begin -n second --
+#translate 0 0 -10
+
+
+#group_begin -n third --
+#translate 0 0 -10
+
+#group_begin -n fourth --
+#translate 0 0 -10
+#sphere -m white --
+0.0     0.0     0.0 // position
+1.0                    // radius
+#group_end 
+
+#group_end 
+
+#group_end
+
+#group_end
+			
 #rayfile_end

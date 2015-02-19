@@ -63,7 +63,7 @@ double Group::intersect (Intersection& intersectionInfo)
 		// Distance for the current object
 		double currDist = (*sg)->intersect(tempInfo);
         
-        if(currDist>0 &&(currDist>0 || alpha==-1)){
+        if(currDist>0 &&(currDist<alpha || alpha==-1)){
             alpha = currDist;
             localInfo = tempInfo;
         }
