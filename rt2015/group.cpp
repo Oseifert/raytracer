@@ -75,9 +75,6 @@ double Group::intersect (Intersection& intersectionInfo)
         // RAY_CASTING TODO (Intersection)
 		// In case of a new closest intersection, update alpha a localInfo
         // RAY_CASTING TODO (Intersection)
-        
-
-        
 	}
 
     // RAY_CASTING TODO (sphere/triangle intersection and transformation)
@@ -89,8 +86,13 @@ double Group::intersect (Intersection& intersectionInfo)
 
 
     if(alpha != -1){
+        Vector3d ivector = localInfo.iCoordinate - localInfo.theRay.getPos();
+        
         localInfo.theRay = invTransform * localInfo.theRay;
         localInfo.normal =  invTransposeTransform.multDir(localInfo.normal);
+        
+        localInfo.iCoordinate = invTransform.multPos(localInfo.iCoordinate);
+        
         
         alpha = sqrt(pow(localInfo.iCoordinate[0] + localInfo.theRay.getPos()[0],2) +
                      pow(localInfo.iCoordinate[1] + localInfo.theRay.getPos()[1],2) +
