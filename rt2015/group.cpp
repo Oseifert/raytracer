@@ -86,7 +86,6 @@ double Group::intersect (Intersection& intersectionInfo)
 
 
     if(alpha != -1){
-        Vector3d ivector = localInfo.iCoordinate - localInfo.theRay.getPos();
         
         localInfo.theRay = invTransform * localInfo.theRay;
         localInfo.normal =  invTransposeTransform.multDir(localInfo.normal);
