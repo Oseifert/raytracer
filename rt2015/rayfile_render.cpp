@@ -162,6 +162,20 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
 
 	// recursive step
 
+    Vector3d reflectV = intersectionInfo.theRay.getDir() +
+    2*(-intersectionInfo.theRay.getDir().dot(intersectionInfo.normal)*intersectionInfo.normal);
+    
+    Point3d reflectPos = intersectionInfo.theRay.getPos() + EPSILON*intersectionInfo.normal;
+    Rayd reflectRay;
+    reflectRay.setPos(reflectPos);
+    reflectRay.setDir(reflectV);
+    
+    Color3d reflectColor = getColor(reflectRay, rDepth-1);
+    
+    color.clampTo(0, 1);
+    color += reflectColor*intersectionInfo.material->getSpecular();
+    
+    color.clampTo(0, 1);
 	// reflection
 
 	// transmission

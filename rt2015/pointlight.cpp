@@ -25,9 +25,18 @@ Color3d PointLight::getDiffuse (Intersection& info)
    * the normal with the vector opposite the incident light's direction.
    * Then factor in attenuation.
    */
-	return Color3d(0,0,0);
-
-  
+    
+    Vector3d direction = info.iCoordinate - location;
+    double angleFactor = -direction.dot(info.normal);
+    
+    if (angleFactor<0)
+        return Color3d(0,0,0);  // light is falling on other side of surface
+    else{
+        Color3d answer =  color * info.material->getDiffuse(info) * angleFactor;
+        double distance = direction.length();
+        double att = 1/(constAtten + linearAtten*distance + pow(distance,2)*quadAtten);
+        return att*answer;
+    }
 }
 
 
@@ -40,8 +49,20 @@ Color3d PointLight::getSpecular (Intersection& info)
    */
 	//compute direction light falls on surface
 
-	return Color3d(0,0,0);
-	}
+    Vector3d direction = info.iCoordinate - location;
+    
+    Vector3d reflect=direction - info.normal*(2*direction.dot(info.normal));
+    reflect.normalize();
+    double angleFactor = - reflect.dot(info.theRay.getDir());
+    if (angleFactor<0)
+        return Color3d(0,0,0);
+    else {
+        angleFactor = pow(angleFactor,info.material->getKshine());
+        double distance = direction.length();
+        double att = 1/(constAtten + linearAtten*distance + pow(distance,2)*quadAtten);
+        return   att * color * info.material->getSpecular() * angleFactor;
+    }
+}
 
 
 bool PointLight::getShadow (Intersection& iInfo, ShapeGroup* root)
@@ -52,7 +73,19 @@ bool PointLight::getShadow (Intersection& iInfo, ShapeGroup* root)
    * and see if it intersects anything. 
    */
 
-	return false;
+    Vector3d direction = iInfo.iCoordinate - location;
+    
+    if (direction.dot(iInfo.normal)>0)
+        return true;
+    // otherwise we'll check
+    Rayd shadowRay;
+    shadowRay.setDir(direction*-1);
+    shadowRay.setPos(iInfo.iCoordinate + iInfo.normal * EPSILON);
+    Intersection tmpInfo;
+    tmpInfo.theRay=shadowRay;
+    if (root->intersect(tmpInfo) > EPSILON)
+        return true;
+    return false;
 
 }
 

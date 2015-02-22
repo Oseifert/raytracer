@@ -56,10 +56,6 @@ Color3d DirectionalLight::getSpecular (Intersection& info)
 		angleFactor = pow(angleFactor,info.material->getKshine());
 		return   color * info.material->getSpecular() * angleFactor;
 	}
-	
-
-
-
 }
 
 
