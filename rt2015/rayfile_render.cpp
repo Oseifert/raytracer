@@ -148,7 +148,8 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
             color += (*theLight)->getSpecular(intersectionInfo);
         }
     }
-
+    
+    color.clampTo(0, 1);
 
 	// stop if no more recursion required
 	if (rDepth == 0)
@@ -162,6 +163,7 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
 
 	// recursive step
 
+    //------------------- reflection -------------------------
     Vector3d reflectV = intersectionInfo.theRay.getDir() +
     2*(-intersectionInfo.theRay.getDir().dot(intersectionInfo.normal)*intersectionInfo.normal);
     
@@ -172,15 +174,57 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     
     Color3d reflectColor = getColor(reflectRay, rDepth-1);
     
-    color.clampTo(0, 1);
     color += reflectColor*intersectionInfo.material->getSpecular();
     
     color.clampTo(0, 1);
-	// reflection
+	
+	
+    //------------- compute transmitted ray using snell's law-----------
+    
+    Vector3d v = intersectionInfo.theRay.getDir();
+    Vector3d vPrime;
+    Vector3d n = intersectionInfo.normal;
+    double beta;
+    if(intersectionInfo.entering){
+        beta = 1/intersectionInfo.material->getRefind();
+    }
+    else{
+        beta = intersectionInfo.material->getRefind();
+    }
+    double thetaIn = acos(v.dot(-n));
+    
+    double bSin = beta*sin(thetaIn);
+    
+    if(bSin<0 || bSin>1){
+        return color;
+    }
+    else if(bSin==0){
+        vPrime = v;
+    }
+    
+    
+    else{
+        Vector3d vS;
+        double thetaOut = asin(bSin);
+        vS = (v - (cos(thetaIn)*-n))/sin(thetaIn);
+        vPrime = cos(thetaOut)*-n + sin(thetaOut) * vS.normalize();
+    }
+    
+    
+    //--------------------- transmission -----------------------
+    
+    Rayd transR;
+    transR.setDir(vPrime);
+    transR.setPos(intersectionInfo.iCoordinate+ EPSILON*-intersectionInfo.normal);
+    
+    Color3d transColor = getColor(transR, rDepth-1);
+    
+    color+= transColor*intersectionInfo.material->getSpecular()
+            * intersectionInfo.material->getKtrans();
+    
+    color.clampTo(0, 1);
 
-	// transmission
 
-	// compute transmitted ray using snell's law
 
 	return color;
 }
