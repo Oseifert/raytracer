@@ -59,7 +59,7 @@ Color3d PointLight::getSpecular (Intersection& info)
     else {
         angleFactor = pow(angleFactor,info.material->getKshine());
         double distance = direction.length();
-        double att = 1/(constAtten + linearAtten*distance + pow(distance,2)*quadAtten);
+        double att = 1/(constAtten + (linearAtten*distance) + (pow(distance,2)*quadAtten));
         return   att * color * info.material->getSpecular() * angleFactor;
     }
 }

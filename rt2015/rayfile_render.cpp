@@ -186,10 +186,10 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     Vector3d n = intersectionInfo.normal;
     double beta;
     if(intersectionInfo.entering){
-        beta = 1/intersectionInfo.material->getRefind();
+        beta = intersectionInfo.material->getRefind();
     }
     else{
-        beta = intersectionInfo.material->getRefind();
+        beta = 1.0/intersectionInfo.material->getRefind();
     }
     double thetaIn = acos(v.dot(-n));
     
@@ -215,12 +215,13 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     
     Rayd transR;
     transR.setDir(vPrime);
-    transR.setPos(intersectionInfo.iCoordinate+ EPSILON*-intersectionInfo.normal);
+    transR.setDir(intersectionInfo.theRay.getDir());
+    transR.setPos(intersectionInfo.iCoordinate+ (EPSILON*-intersectionInfo.normal));
     
     Color3d transColor = getColor(transR, rDepth-1);
     
-    color+= transColor*intersectionInfo.material->getSpecular()
-            * intersectionInfo.material->getKtrans();
+    color+= intersectionInfo.material->getKtrans()
+            * intersectionInfo.material->getSpecular() * transColor;
     
     color.clampTo(0, 1);
 
