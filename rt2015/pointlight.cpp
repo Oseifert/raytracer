@@ -27,13 +27,14 @@ Color3d PointLight::getDiffuse (Intersection& info)
    */
     
     Vector3d direction = info.iCoordinate - location;
+    double distance = direction.length();
+    direction.normalize();
     double angleFactor = -direction.dot(info.normal);
     
     if (angleFactor<0)
         return Color3d(0,0,0);  // light is falling on other side of surface
     else{
         Color3d answer =  color * info.material->getDiffuse(info) * angleFactor;
-        double distance = direction.length();
         double att = 1/(constAtten + linearAtten*distance + pow(distance,2)*quadAtten);
         return att*answer;
     }
@@ -50,7 +51,8 @@ Color3d PointLight::getSpecular (Intersection& info)
 	//compute direction light falls on surface
 
     Vector3d direction = info.iCoordinate - location;
-    
+    double distance = direction.length();
+    direction.normalize();
     Vector3d reflect=direction - info.normal*(2*direction.dot(info.normal));
     reflect.normalize();
     double angleFactor = - reflect.dot(info.theRay.getDir());
@@ -58,7 +60,6 @@ Color3d PointLight::getSpecular (Intersection& info)
         return Color3d(0,0,0);
     else {
         angleFactor = pow(angleFactor,info.material->getKshine());
-        double distance = direction.length();
         double att = 1/(constAtten + (linearAtten*distance) + (pow(distance,2)*quadAtten));
         return   att * color * info.material->getSpecular() * angleFactor;
     }
@@ -80,10 +81,13 @@ bool PointLight::getShadow (Intersection& iInfo, ShapeGroup* root)
     // otherwise we'll check
     Rayd shadowRay;
     shadowRay.setDir(direction*-1);
+    double distance = shadowRay.getDir().length();
+    shadowRay.getDir().normalize();
     shadowRay.setPos(iInfo.iCoordinate + iInfo.normal * EPSILON);
     Intersection tmpInfo;
     tmpInfo.theRay=shadowRay;
-    if (root->intersect(tmpInfo) > EPSILON)
+    double alpha = root->intersect(tmpInfo);
+    if (alpha > EPSILON && alpha<distance)
         return true;
     return false;
 

@@ -186,15 +186,17 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     Vector3d n = intersectionInfo.normal;
     double beta;
     if(intersectionInfo.entering){
-        beta = intersectionInfo.material->getRefind();
-    }
-    else{
         beta = 1.0/intersectionInfo.material->getRefind();
     }
-    double thetaIn = acos(v.dot(-n));
+    else{
+        beta = intersectionInfo.material->getRefind();
+    }
+    double cosThetaIn = v.dot(-n);
+    double sinThetaIn = sqrt(1-cosThetaIn*cosThetaIn);
+    double sinThetaOut = beta*sinThetaIn;
+    double cosThetaOut = sqrt(1-sinThetaOut*sinThetaOut);
     
-    double bSin = beta*sin(thetaIn);
-    
+    double bSin = beta * sinThetaIn;
     if(bSin<0 || bSin>1){
         return color;
     }
@@ -205,9 +207,10 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     
     else{
         Vector3d vS;
-        double thetaOut = asin(bSin);
-        vS = (v - (cos(thetaIn)*-n))/sin(thetaIn);
-        vPrime = cos(thetaOut)*-n + sin(thetaOut) * vS.normalize();
+        
+        //double thetaOut = asin(bSin);
+        vS = ((v - cosThetaIn)*-n)/sinThetaIn;
+        vPrime = (cosThetaOut*-n) + sinThetaOut * vS.normalize();
     }
     
     

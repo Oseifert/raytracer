@@ -84,21 +84,25 @@ double Group::intersect (Intersection& intersectionInfo)
 
     if(alpha >0){
         
-        localInfo.theRay = transform * localInfo.theRay;
-        localInfo.normal =  invTransposeTransform.multDir(localInfo.normal);
-        localInfo.normal.normalize();
-        localInfo.iCoordinate = transform.multPos(localInfo.iCoordinate);
+
+        intersectionInfo.normal =  invTransposeTransform.multDir(localInfo.normal);
+        intersectionInfo.normal.normalize();
+        intersectionInfo.iCoordinate = transform.multPos(localInfo.iCoordinate);
+        intersectionInfo.entering = localInfo.entering;
+        intersectionInfo.material = localInfo.material;
+    
         
-        Vector3d ivector = (localInfo.iCoordinate - localInfo.theRay.getPos());
+        Vector3d ivector = (intersectionInfo.iCoordinate - intersectionInfo.theRay.getPos());
         alpha = ivector.length();
         
 //        alpha = sqrt(pow(localInfo.iCoordinate[0] + localInfo.theRay.getPos()[0],2) +
 //                     pow(localInfo.iCoordinate[1] + localInfo.theRay.getPos()[1],2) +
 //                     pow(localInfo.iCoordinate[2] + localInfo.theRay.getPos()[2],2));
     }
+
     
     
-    intersectionInfo = localInfo;
+
     return alpha;
 }
 
