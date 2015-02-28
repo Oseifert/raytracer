@@ -76,12 +76,6 @@ void RayFile::raytrace (Image* image)
             theRay.setPos(cameraPos);
 
 			// get the color at the closest intersection point
-            if(i== 3*imageWidth/4 && j == imageHeight/2){
-//                p.r=1;
-//                p.g=0;
-//                p.b=0;
-                
-            }
             
 			Color3d theColor = getColor(theRay, options->recursiveDepth);
 
@@ -93,11 +87,6 @@ void RayFile::raytrace (Image* image)
 			p.g = theColor[1];
 			p.b = theColor[2];
 
-//            if(i== 3*imageWidth/4 && j == imageHeight/2){
-//                p.r=1;
-//                p.g=0;
-//                p.b=0;
-//            }
 			image->setPixel(i, j, p);
 
 		} // end for-i
@@ -220,7 +209,7 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
         Vector3d vS;
         double cosThetaOut = sqrt(1-sinThetaOut*sinThetaOut);
         //double thetaOut = asin(bSin);
-        vS = ((v - cosThetaIn)*-n)/sinThetaIn;
+        vS = (v - cosThetaIn*-n)/sinThetaIn;
         vS.normalize();
         vPrime = (cosThetaOut*-n) + sinThetaOut * vS;
         vPrime.normalize();
