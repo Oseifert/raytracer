@@ -412,6 +412,8 @@ Vector<T, N>& Vector<T, N>::normalize ()
   if (len == 0)
     {
       cerr << "Cannot normalize 0-length vector " << endl;
+      cerr << "really?";
+      cerr << "huh";
       return *this;
     }
 

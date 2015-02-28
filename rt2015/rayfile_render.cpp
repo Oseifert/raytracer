@@ -76,7 +76,13 @@ void RayFile::raytrace (Image* image)
             theRay.setPos(cameraPos);
 
 			// get the color at the closest intersection point
-
+            if(i== 3*imageWidth/4 && j == imageHeight/2){
+//                p.r=1;
+//                p.g=0;
+//                p.b=0;
+                
+            }
+            
 			Color3d theColor = getColor(theRay, options->recursiveDepth);
 
 			// the image class doesn't know about color3d so we have to convert to pixel
@@ -87,6 +93,11 @@ void RayFile::raytrace (Image* image)
 			p.g = theColor[1];
 			p.b = theColor[2];
 
+//            if(i== 3*imageWidth/4 && j == imageHeight/2){
+//                p.r=1;
+//                p.g=0;
+//                p.b=0;
+//            }
 			image->setPixel(i, j, p);
 
 		} // end for-i
@@ -172,9 +183,9 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     reflectRay.setPos(reflectPos);
     reflectRay.setDir(reflectV);
     
-    Color3d reflectColor = getColor(reflectRay, rDepth-1);
+    //Color3d reflectColor = getColor(reflectRay, rDepth-1);
     
-    color += reflectColor*intersectionInfo.material->getSpecular();
+    //color += reflectColor*intersectionInfo.material->getSpecular();
     
     color.clampTo(0, 1);
 	
@@ -194,7 +205,7 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     double cosThetaIn = v.dot(-n);
     double sinThetaIn = sqrt(1-cosThetaIn*cosThetaIn);
     double sinThetaOut = beta*sinThetaIn;
-    double cosThetaOut = sqrt(1-sinThetaOut*sinThetaOut);
+
     
     double bSin = beta * sinThetaIn;
     if(bSin<0 || bSin>1){
@@ -204,13 +215,15 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
         vPrime = v;
     }
     
-    
+  
     else{
         Vector3d vS;
-        
+        double cosThetaOut = sqrt(1-sinThetaOut*sinThetaOut);
         //double thetaOut = asin(bSin);
         vS = ((v - cosThetaIn)*-n)/sinThetaIn;
-        vPrime = (cosThetaOut*-n) + sinThetaOut * vS.normalize();
+        vS.normalize();
+        vPrime = (cosThetaOut*-n) + sinThetaOut * vS;
+        vPrime.normalize();
     }
     
     
@@ -218,7 +231,6 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     
     Rayd transR;
     transR.setDir(vPrime);
-    transR.setDir(intersectionInfo.theRay.getDir());
     transR.setPos(intersectionInfo.iCoordinate+ (EPSILON*-intersectionInfo.normal));
     
     Color3d transColor = getColor(transR, rDepth-1);
