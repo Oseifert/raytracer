@@ -94,13 +94,11 @@ double Group::intersect (Intersection& intersectionInfo)
         
         Vector3d ivector = (intersectionInfo.iCoordinate - intersectionInfo.theRay.getPos());
         alpha = ivector.length();
-        
-//        alpha = sqrt(pow(localInfo.iCoordinate[0] + localInfo.theRay.getPos()[0],2) +
-//                     pow(localInfo.iCoordinate[1] + localInfo.theRay.getPos()[1],2) +
-//                     pow(localInfo.iCoordinate[2] + localInfo.theRay.getPos()[2],2));
+
+        intersectionInfo.texCoordinate = localInfo.texCoordinate;
+        intersectionInfo.textured = localInfo.textured;
     }
 
-    
     
 
     return alpha;

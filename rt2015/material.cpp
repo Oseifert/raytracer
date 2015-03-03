@@ -62,10 +62,14 @@ bool Material::procTextured()
 
 const Color3d Material::getTexture(double u, double v)
 {
-
-
-	return Color3d(0,0,0);
+    double width = texture->getWidth();
+    double height = texture->getHeight();
+    
+    Pixel pixel = texture->getSample(u * width, v * height);
+    
+    return Color3d(pixel.r, pixel.g, pixel.b);
 }
+
 const Color3d Material::getProceduralTexture(Point3d point)
 {
 

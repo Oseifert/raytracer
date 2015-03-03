@@ -85,11 +85,6 @@ double Sphere::intersect (Intersection& intersectionInfo)
     
     intersectionInfo.normal = intersectionInfo.iCoordinate - center;
     
-    //we had this before
-//    intersectionInfo.normal[0] = intersectionInfo.iCoordinate[0] - center[0];
-//    intersectionInfo.normal[1] = intersectionInfo.iCoordinate[1] - center[1];
-//    intersectionInfo.normal[2] = intersectionInfo.iCoordinate[2] - center[2];
-    
     intersectionInfo.normal.normalize();
     
     intersectionInfo.material = material;
@@ -104,6 +99,23 @@ double Sphere::intersect (Intersection& intersectionInfo)
     if(intersectionInfo.normal.dot(v) > 0){
         intersectionInfo.normal *= -1;
         intersectionInfo.entering = false;
+    }
+    
+    if(textured){
+        
+        intersectionInfo.textured = true;
+        double r = radius;
+        Point3d newIntersect = intersectionInfo.iCoordinate - center;
+        
+        double phi = atan2(newIntersect[1] , newIntersect[0]);
+        double theta = acos(newIntersect[2] / r);
+        
+        double normTheta = theta / PI;
+        double normPhi = (phi + PI) / (2*PI);
+        
+        intersectionInfo.texCoordinate[0] = normPhi;
+        intersectionInfo.texCoordinate[1] = normTheta;
+        
     }
     
     // RAY_CASTING TODO (sphere intersection)
