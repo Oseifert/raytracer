@@ -118,6 +118,15 @@ double Sphere::intersect (Intersection& intersectionInfo)
         
     }
     
+    if(bumpMapped){
+        
+        Vector3d v = Vector3d(0,1,0);
+        Vector3d up = v - intersectionInfo.normal.dot(v) * intersectionInfo.normal;
+        
+        up.normalize();
+        Vector3d right = intersectionInfo.normal.cross(up);
+    }
+    
     // RAY_CASTING TODO (sphere intersection)
     // Determine if intersectionInfo.theRay intersects the sphere in front of the camera
     // if so, store intersectionInfo on intersection point in intersectionInfo

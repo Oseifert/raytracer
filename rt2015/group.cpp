@@ -349,7 +349,7 @@ Matrixd Group::readRotate(istream &in)
 
 	result(0,0) = cosTheta + (1 - cosTheta)*rx*rx;
 	result(0,1) = (1 - cosTheta)*rx*ry - rz * sinTheta;
-	result(0,2) = (1 - cosTheta)*rx*rz + ry * cosTheta;
+	result(0,2) = (1 - cosTheta)*rx*rz + ry * sinTheta;
 
 	result(1,0) = (1 - cosTheta)*rx*ry + rz * sinTheta;
 	result(1,1) = cosTheta + (1 - cosTheta)*ry*ry;
