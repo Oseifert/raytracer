@@ -87,8 +87,26 @@ void Material::bumpNormal (Vector3d& normal,
 		return;
 
 	if (bumpMap != NULL)
-	{	
-
+	{
+        int width = bumpMap->getWidth();
+        int height = bumpMap->getHeight();
+        
+        double x = info.texCoordinate[0] * width;
+        double y = info.texCoordinate[1] * height;
+        
+        Pixel floorX1 = bumpMap->getSample(floor(x),y);
+        Pixel floorX2 = bumpMap->getSample(int(floor(x)+1) % width, y);
+        Pixel floorY1= bumpMap->getSample(x,floor(y));
+        Pixel floorY2 = bumpMap->getSample(x, int(floor(y)+1)%height);
+        
+        double dx = floorX2.r - floorX1.r;
+        double dy = floorY1.r - floorY2.r;
+        
+        Vector3d perturb = dx*right + dy*up;
+        normal+= bumpScale*perturb;
+        info.normal = normal;
+        info.normal.normalize();
+        
 	}
 	return;
 }
