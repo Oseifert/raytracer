@@ -119,14 +119,30 @@ double Sphere::intersect (Intersection& intersectionInfo)
     }
     
     if(bumpMapped){
-        
+    
         Vector3d v = Vector3d(0,1,0);
         Vector3d up = v - intersectionInfo.normal.dot(v) * intersectionInfo.normal;
+        
+        double r = radius;
+        Point3d newIntersect = intersectionInfo.iCoordinate - center;
+        
+        double phi = atan2(newIntersect[1] , newIntersect[0]);
+        double theta = acos(newIntersect[2] / r);
+        
+        double normTheta = theta / PI;
+        double normPhi = (phi + PI) / (2*PI);
+        
+        intersectionInfo.texCoordinate[0] = normPhi;
+        intersectionInfo.texCoordinate[1] = normTheta;
         
         up.normalize();
         Vector3d right = intersectionInfo.normal.cross(up);
         
-        intersectionInfo.material->bumpNormal(intersectionInfo.normal, up, right, intersectionInfo, bumpScale);
+        Vector3d n = intersectionInfo.normal;
+        
+        material->bumpNormal(n, up, right, intersectionInfo, bumpScale);
+        
+
         
     }
     
