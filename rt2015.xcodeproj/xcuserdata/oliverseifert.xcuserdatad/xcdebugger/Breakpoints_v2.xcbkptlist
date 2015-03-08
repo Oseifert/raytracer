@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rt2015/triangle.cpp"
-            timestampString = "446771646.042471"
+            timestampString = "447286506.165382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "Triangle::intersect (Intersection&amp; intersectionInfo)"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rt2015/triangle.cpp"
-            timestampString = "446771647.464404"
+            timestampString = "447286506.165382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "Triangle::intersect (Intersection&amp; intersectionInfo)"
             landmarkType = "5">
          </BreakpointContent>
@@ -224,6 +224,22 @@
             startingLineNumber = "70"
             endingLineNumber = "70"
             landmarkName = "Material::getTexture(double u, double v)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rt2015/sphere.cpp"
+            timestampString = "447286506.165382"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "Sphere::intersect (Intersection&amp; intersectionInfo)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

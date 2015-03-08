@@ -125,6 +125,9 @@ double Sphere::intersect (Intersection& intersectionInfo)
         
         up.normalize();
         Vector3d right = intersectionInfo.normal.cross(up);
+        
+        intersectionInfo.material->bumpNormal(intersectionInfo.normal, up, right, intersectionInfo, bumpScale);
+        
     }
     
     // RAY_CASTING TODO (sphere intersection)

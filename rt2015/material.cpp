@@ -87,8 +87,10 @@ void Material::bumpNormal (Vector3d& normal,
 		return;
 
 	if (bumpMap != NULL)
-	{	
-
+	{
+//        Pixel p1 = bumpMap->getSample(floor(right), up);
+        
+        
 	}
 	return;
 }
