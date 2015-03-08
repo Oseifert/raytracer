@@ -32,7 +32,7 @@
 
 #group_begin -n sphereGroup --
 #rotate 90 0 1 0
-#sphere -m rock  -u .8 --
+#sphere -m rock  -u 10 --
 	    0.0     0.0     0.0 // position
 	    3.0                 // radius
 #group_end
