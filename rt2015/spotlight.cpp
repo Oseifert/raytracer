@@ -35,7 +35,6 @@ Color3d SpotLight::getDiffuse (Intersection& info)
         return Color3d(0,0,0);
     }
     
-    double dropDist= distance/sin(angle);
     
     direction.normalize();
     double angleFactor = -direction.dot(info.normal);
@@ -45,7 +44,8 @@ Color3d SpotLight::getDiffuse (Intersection& info)
     else{
         Color3d answer =  color * info.material->getDiffuse(info) * angleFactor;
         double att = 1/(constAtten + linearAtten*distance + pow(distance,2)*quadAtten);
-        return (att*answer)-(dropOffRate*dropDist);
+        double sp = pow(direction.dot(beam),128*dropOffRate);
+        return att*answer*sp;
     }
 
 }
@@ -70,7 +70,6 @@ Color3d SpotLight::getSpecular (Intersection& info)
         return Color3d(0,0,0);
     }
     
-    double dropDist= distance/sin(angle);
     
     
     
@@ -83,7 +82,8 @@ Color3d SpotLight::getSpecular (Intersection& info)
     else {
         angleFactor = pow(angleFactor,info.material->getKshine());
         double att = 1/(constAtten + (linearAtten*distance) + (pow(distance,2)*quadAtten));
-        return   (att * color * info.material->getSpecular() * angleFactor)-(dropOffRate*dropDist);
+        double sp = pow(direction.dot(beam),128*dropOffRate);
+        return   sp*att * color * info.material->getSpecular() * angleFactor;
     }
 }
 
