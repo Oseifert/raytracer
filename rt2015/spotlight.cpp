@@ -66,7 +66,7 @@ Color3d SpotLight::getSpecular (Intersection& info)
     Vector3d beam = info.theRay.getDir();
     
     double angle = acos(direction.dot(beam)/(beam.length()*direction.length()));
-    if(angle>cutOffAngle){
+    if(angle>cutOffAngle || angle<0){
         return Color3d(0,0,0);
     }
     

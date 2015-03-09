@@ -84,7 +84,7 @@ void RayFile::raytrace (Image* image)
                 p.b = theColor[2];
             }
             else{
-                for(int i=0; i<numRays;++i){
+                //for(int i=0; i<numRays;++i){
                     cerr<<i<<endl;
                     
                     float randX = ((rand()%1000)-500);
@@ -106,7 +106,7 @@ void RayFile::raytrace (Image* image)
                     p.g = theColor[1];
                     p.b = theColor[2];
         
-                }
+                //}
 //                p.r = p.r/numRays;
 //                p.g = p.g/numRays;
 //                p.b = p.b/numRays;

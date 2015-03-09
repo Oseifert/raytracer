@@ -1,0 +1,37 @@
+#version HMCCS155FALL2002
+
+/*
+ * texture mapped sphere and triangle.   */
+
+#background	0.0 0.0 0.0
+#ambient	0.0 0.0 0.0
+
+#camera
+	-3.0	0.0	0.0	// position
+	1.0	0.0	0.0	// facing
+	0.0	1.0	0.0	// up
+	30.0			// heightAngle
+
+#light_point -n PointLight1 --
+	1.0	1.0	1.0	// color
+	-1.0	-1.0	1.0	// position
+	1.0	0.0	0.0	// const, linear, quad attenuation
+
+#material -n mTextured -t z.bmp  --
+	0.0	0.0	0.0	// ambient
+	0.0	1.0	1.0	// diffuse
+	1.0	1.0	1.0	// specular
+	0.0	0.0	0.0	// emissive
+	0.9	0.0	0.0	// kspec ktrans refind
+
+
+#sphere -n Sphere1 -m mTextured -t --
+	2.0	0.0	-1.5	// position
+	1.0			// radius
+
+#triangle -n Triangle1 -m mTextured -t --
+	1.0	0.0	0.0	0.0	0.0	// v0, t0
+	1.0	-1.0	1.5	0.0	1.0	// v1, t1
+	1.0	1.0	1.5	1.0	0.0	// v2, t2
+
+#rayfile_end
