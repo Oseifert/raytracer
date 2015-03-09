@@ -110,17 +110,30 @@ double Triangle::intersect (Intersection& intersectionInfo)
             intersectionInfo.texCoordinate[1] = texP[1];
         }
         
-//        if(bumpMapped){
-//            
-//            Vector3d v = Vector3d(0,1,0);
-//            Vector3d up = v - intersectionInfo.normal.dot(v) * intersectionInfo.normal;
-//            
-//            up.normalize();
-//            Vector3d right = intersectionInfo.normal.cross(up);
-//            
-//            intersectionInfo.material->bumpNormal(intersectionInfo.normal, up, right, intersectionInfo, bumpScale);
-//            
-//        }
+        if(bumpMapped){
+            
+            Point2d p0 = Point2d(t[0][0],t[0][1]);
+            Point2d p1 = Point2d(t[1][0],t[1][1]);
+            Point2d p2 = Point2d(t[2][0],t[2][1]);
+            Vector2d v1 = p1 - p0;
+            Vector2d v2 = p2 - p0;
+            
+            Point2d texP = p0 + (beta*v1) + (gamma*v2);
+            
+            intersectionInfo.texCoordinate[0] = texP[0];
+            intersectionInfo.texCoordinate[1] = texP[1];
+            
+            
+            
+            Vector3d u = w1;
+            u.normalize();
+            Vector3d v = -w2;
+            v.normalize();
+            
+            
+            material->bumpNormal(intersectionInfo.normal, u, v, intersectionInfo, bumpScale);
+            
+        }
         
         return alpha;
     }

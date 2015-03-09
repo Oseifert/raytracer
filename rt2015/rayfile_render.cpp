@@ -45,6 +45,7 @@ void RayFile::raytrace (Image* image)
 	// for printing progress to stderr...
 	double nextMilestone = 1.0;
 
+    
 	// 
 	// ray trace the scene
 	//
@@ -62,30 +63,61 @@ void RayFile::raytrace (Image* image)
             // Compute and set the starting position and direction of the ray through pixel i,j
             // HINT: be sure to normalize the direction vector
             // RAY_CASTING TODO
-	
-            theRay.setPos(cameraPos);
-            Point3d pixelPoint = topLeft +((i+.5) * rightVector) - ((j+.5)*upVector);
-
-            rayDir = pixelPoint-cameraPos;
-//            rayDir[0] = pixelPoint[0]-cameraPos[0];
-//            rayDir[1] = pixelPoint[1]-cameraPos[1];
-//            rayDir[2] = pixelPoint[2]-cameraPos[2];
-            rayDir.normalize();
-            
-            theRay.setDir(rayDir);
-            theRay.setPos(cameraPos);
+            Color3d theColor = Color3d(0,0,0);
+            Point3d pixelPoint;
+            Pixel p;
 
 			// get the color at the closest intersection point
-            
-			Color3d theColor = getColor(theRay, options->recursiveDepth);
-
+            int numRays = options->jitter;
+            if (numRays==0){
+                theRay.setPos(cameraPos);
+                pixelPoint = topLeft +((i+.5) * rightVector) - ((j+.5)*upVector);
+                
+                rayDir = pixelPoint-cameraPos;
+                rayDir.normalize();
+                
+                theRay.setDir(rayDir);
+                theRay.setPos(cameraPos);
+                theColor = getColor(theRay, options->recursiveDepth);
+                p.r = theColor[0];
+                p.g = theColor[1];
+                p.b = theColor[2];
+            }
+            else{
+                for(int i=0; i<numRays;++i){
+                    cerr<<i<<endl;
+                    
+                    float randX = ((rand()%1000)-500);
+                    float randY = ((rand()%1000)-500);
+                    randX/=1000;
+                    randY/=1000;
+                    
+                    
+                    theRay.setPos(cameraPos);
+                    pixelPoint = topLeft +((i+.5) * rightVector) - ((j+.5)*upVector);
+                    rayDir = pixelPoint-cameraPos;
+                    rayDir.normalize();
+                    
+                    theRay.setDir(rayDir);
+                    theRay.setPos(cameraPos);
+                    
+                    theColor = getColor(theRay, options->recursiveDepth);
+                    p.r = theColor[0];
+                    p.g = theColor[1];
+                    p.b = theColor[2];
+        
+                }
+//                p.r = p.r/numRays;
+//                p.g = p.g/numRays;
+//                p.b = p.b/numRays;
+            }
 			// the image class doesn't know about color3d so we have to convert to pixel
 			// update pixel
-			Pixel p;
-
-			p.r = theColor[0];
-			p.g = theColor[1];
-			p.b = theColor[2];
+//			Pixel p;
+//            
+//			p.r = theColor[0];
+//			p.g = theColor[1];
+//			p.b = theColor[2];
 
 			image->setPixel(i, j, p);
 
@@ -135,10 +167,13 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
 
 	// check for texture
 
-	// add emissive term
-
-	// add ambient term
+    //--------------------------Ambient--------------------------
     
+    color += intersectionInfo.material->getAmbient()* getAmbient();
+    
+    //---------------------------Emissive-----------------------
+    
+    color += intersectionInfo.material->getEmissive();
     
     // add contribution from each light
     for (VECTOR(Light*)::iterator theLight = lights.begin(); theLight != lights.end(); ++theLight)
@@ -161,6 +196,8 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
 	if (color==white) // can't add any more
 		return color;
 
+
+    
 	// recursive step
 
     //------------------- reflection -------------------------
@@ -172,9 +209,9 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     reflectRay.setPos(reflectPos);
     reflectRay.setDir(reflectV);
     
-    //Color3d reflectColor = getColor(reflectRay, rDepth-1);
+    Color3d reflectColor = getColor(reflectRay, rDepth-1);
     
-    //color += reflectColor*intersectionInfo.material->getSpecular();
+    color += reflectColor*intersectionInfo.material->getSpecular();
     
     color.clampTo(0, 1);
 	
@@ -229,7 +266,9 @@ Color3d RayFile::getColor(Rayd theRay, int rDepth)
     
     color.clampTo(0, 1);
 
-
+    
+    
+    
 
 	return color;
 }
