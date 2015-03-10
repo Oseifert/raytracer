@@ -84,7 +84,10 @@ void RayFile::raytrace (Image* image)
                 p.b = theColor[2];
             }
             else{
-                //for(int i=0; i<numRays;++i){
+                //Here is the problem loop
+                // At the moment it is the same code as the above area but
+                // still breaks for some reason.
+                for(int i=0; i<numRays;++i){
                     cerr<<i<<endl;
                     
                     float randX = ((rand()%1000)-500);
@@ -94,6 +97,7 @@ void RayFile::raytrace (Image* image)
                     
                     
                     theRay.setPos(cameraPos);
+                    //We will add the random offset in here
                     pixelPoint = topLeft +((i+.5) * rightVector) - ((j+.5)*upVector);
                     rayDir = pixelPoint-cameraPos;
                     rayDir.normalize();
@@ -102,11 +106,12 @@ void RayFile::raytrace (Image* image)
                     theRay.setPos(cameraPos);
                     
                     theColor = getColor(theRay, options->recursiveDepth);
+                    //and make these += and divide below
                     p.r = theColor[0];
                     p.g = theColor[1];
                     p.b = theColor[2];
         
-                //}
+                }
 //                p.r = p.r/numRays;
 //                p.g = p.g/numRays;
 //                p.b = p.b/numRays;
