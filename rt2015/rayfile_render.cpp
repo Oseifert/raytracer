@@ -79,50 +79,35 @@ void RayFile::raytrace (Image* image)
                 theRay.setDir(rayDir);
                 theRay.setPos(cameraPos);
                 theColor = getColor(theRay, options->recursiveDepth);
-                p.r = theColor[0];
-                p.g = theColor[1];
-                p.b = theColor[2];
             }
             else{
                 //Here is the problem loop
                 // At the moment it is the same code as the above area but
                 // still breaks for some reason.
-                for(int i=0; i<numRays;++i){
-                    cerr<<i<<endl;
+                for(int ray=0; ray<numRays;++ray){
                     
                     float randX = ((rand()%1000)-500);
                     float randY = ((rand()%1000)-500);
                     randX/=1000;
                     randY/=1000;
                     
-                    
-                    theRay.setPos(cameraPos);
-                    //We will add the random offset in here
-                    pixelPoint = topLeft +((i+.5) * rightVector) - ((j+.5)*upVector);
+                    pixelPoint = topLeft +((i+.5+randX) * rightVector) - ((j+.5+randY)*upVector);
                     rayDir = pixelPoint-cameraPos;
                     rayDir.normalize();
                     
                     theRay.setDir(rayDir);
                     theRay.setPos(cameraPos);
                     
-                    theColor = getColor(theRay, options->recursiveDepth);
-                    //and make these += and divide below
-                    p.r = theColor[0];
-                    p.g = theColor[1];
-                    p.b = theColor[2];
-        
+                    theColor += getColor(theRay, options->recursiveDepth);
                 }
-//                p.r = p.r/numRays;
-//                p.g = p.g/numRays;
-//                p.b = p.b/numRays;
+                theColor/=numRays;
+
             }
 			// the image class doesn't know about color3d so we have to convert to pixel
 			// update pixel
-//			Pixel p;
-//            
-//			p.r = theColor[0];
-//			p.g = theColor[1];
-//			p.b = theColor[2];
+			p.r = theColor[0];
+			p.g = theColor[1];
+			p.b = theColor[2];
 
 			image->setPixel(i, j, p);
 
