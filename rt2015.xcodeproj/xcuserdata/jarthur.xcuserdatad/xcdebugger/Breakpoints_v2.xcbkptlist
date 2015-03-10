@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rt2015/sphere.cpp"
-            timestampString = "447310263.248458"
+            timestampString = "447651002.890897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "Sphere::intersect (Intersection&amp; intersectionInfo)"
             landmarkType = "5">
          </BreakpointContent>
@@ -56,13 +56,73 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rt2015/rayfile_render.cpp"
-            timestampString = "447646863.72904"
+            timestampString = "447651002.890897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "RayFile::raytrace (Image* image)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rt2015/box.cpp"
+            timestampString = "447651885.283099"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "Box::intersect (Intersection&amp; info)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rt2015/box.cpp"
+            timestampString = "447651885.283099"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4"
+            endingLineNumber = "4">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Box::Box()"
+                  moduleName = "rt2015"
+                  urlString = "file:///Users/jarthur/Desktop/raytracer/rt2015/box.cpp"
+                  timestampString = "447651524.313974"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "15">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Box::Box()"
+                  moduleName = "rt2015"
+                  urlString = "file:///Users/jarthur/Desktop/raytracer/rt2015/box.cpp"
+                  timestampString = "447651524.314249"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -42,10 +42,6 @@ double Sphere::intersect (Intersection& intersectionInfo)
     Vector3d u;
     u = center - intersectionInfo.theRay.getPos();
     
-//    u[0] = center[0] - intersectionInfo.theRay.getPos()[0];
-//    u[1] = center[1] - intersectionInfo.theRay.getPos()[1];
-//    u[2] = center[2] - intersectionInfo.theRay.getPos()[2];
-    
     double r = radius;
     
     double a = pow(v.length(), 2);
@@ -89,10 +85,6 @@ double Sphere::intersect (Intersection& intersectionInfo)
     
     intersectionInfo.material = material;
     
-    //dont' need textures yet.
-    //intersectionInfo.textured = textured;
-    
-    //intersectionInfo.texCoordinate = texCoordinate;
     
     intersectionInfo.entering = true;
     

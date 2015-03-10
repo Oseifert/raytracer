@@ -46,6 +46,6 @@
 
 #box -n Box1 -m mWhite   --
 	0.0	0.0	0.0	// position
-	1.0	2.0	3.0	// dimensions
+	1.0	1.0	1.0	// dimensions
 
 #rayfile_end
