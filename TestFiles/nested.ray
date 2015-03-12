@@ -34,7 +34,7 @@
 0.0 	0.0		0.0
 1.0
 
-#group_begin -n outer --
+#group_begin -n inner --
 #scale 3 3 3
 #sphere -m black --
 0.0		0.0		0.0

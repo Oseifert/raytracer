@@ -18,30 +18,33 @@ Box::~Box ()
 
 double Box::planeIntersect (Rayd& ray, Point3d& p0, Vector3d& n)
 {
-    Vector3d direction = p0 - ray.getPos();
-    if(direction.dot(n)==0){
+    
+    Vector3d v = -ray.getDir();
+    Vector3d dir = ray.getPos() - p0;
+
+    if(ray.getDir().dot(n)==0){
         return -1;
     }
     
-    double dist = (direction.dot(n))/(ray.getDir().dot(n));
+    double dist = dir.dot(n)/v.dot(n);
     Point3d intersect = ray.getPos() + (dist*ray.getDir());
 
     if(n[0] == 1 || n[0] == -1){
-        if(abs(double(intersect[1]-center[1])) < size[1]  &&
-           abs(double(intersect[2]-center[2])) < size[2]){
+        if(abs(double(intersect[1]-center[1])) < double(size[1])/2.0  &&
+           abs(double(intersect[2]-center[2])) < double(size[2])/2.0){
             return dist;
         }
     }
   
     else if(n[1] == 1 || n[1] == -1){
-        if(abs(double(intersect[0]-center[0])) < size[0]  &&
-           abs(double(intersect[2]-center[2])) < size[2]){
+        if(abs(double(intersect[0]-center[0])) < double(size[0])/2.0  &&
+           abs(double(intersect[2]-center[2])) < double(size[2])/2.0){
             return dist;
         }
     }
     else if(n[2] == 1 || n[2] == -1){
-        if(abs(double(intersect[0]-center[0])) < size[0]  &&
-            abs(double(intersect[1]-center[1])) < size[1]){
+        if(abs(double(intersect[0]-center[0])) < double(size[0])/2.0  &&
+            abs(double(intersect[1]-center[1])) < double(size[1])/2.0){
             return dist;
         }
     }
@@ -57,25 +60,19 @@ double Box::intersect (Intersection& info)
     Point3d p0;
     double alpha = -1;
     double newAlpha;
-    double sign = 1;
-    
+    Point3d intersect;
     for(int i =0; i<6;++i){
-        if (i>2) {
-            sign = -1;
-        }
         
-        p0 = center+((sign *size[i%3]/2) * normals[i]);
+        p0 = center+((size[i%3]/2) * normals[i]);
         
         newAlpha = planeIntersect(info.theRay, p0, normals[i]);
         
-        if(alpha==-1 && newAlpha>0){
+        if((alpha==-1 && newAlpha>0) || (newAlpha>0 && newAlpha<alpha)){
             alpha = newAlpha;
             info.normal = normals[i];
+            
         }
-        else if(newAlpha>0 && newAlpha<alpha){
-            alpha = newAlpha;
-            info.normal = normals[i];
-        }
+
     }
     if (alpha>0) {
         info.iCoordinate = info.theRay.getPos() + (info.theRay.getDir() * alpha);
@@ -88,6 +85,63 @@ double Box::intersect (Intersection& info)
             info.entering = false;
         }
         info.normal.normalize();
+        
+        if(textured){
+            info.textured = true;
+            double x;
+            double y;
+            Vector3d n = info.normal;
+            Point3d p = info.iCoordinate;
+            if(n[0] == 1 || n[0] == -1){
+                x= ((p[1] - center[1])+size[1]/2);
+                y= ((p[2] - center[2])+size[2]/2);
+            }
+            else if(n[1] == 1 || n[1] == -1){
+                x= ((p[0] - center[0])+size[0]/2);
+                y= ((p[2] - center[2])+size[2]/2);
+            }
+            else if(n[2] == 1 || n[2] == -1){
+                x= ((p[0] - center[0])+size[0]/2);
+                y= ((p[1] - center[1])+size[1]/2);
+            }
+            
+            info.texCoordinate[0] = x;
+            info.texCoordinate[1] = y;
+        }
+        
+        if(bumpMapped){
+            double x;
+            double y;
+            Vector3d up;
+            Vector3d right;
+            
+            Vector3d n = info.normal;
+            Point3d p = info.iCoordinate;
+            if(n[0] == 1 || n[0] == -1){
+                x= ((p[1] - center[1])+size[1]/2);
+                y= ((p[2] - center[2])+size[2]/2);
+                up = n[0]*Vector3d(0,0,1);
+                right = n[0] * Vector3d(0,1,0);
+                
+            }
+            else if(n[1] == 1 || n[1] == -1){
+                x= ((p[0] - center[0])+size[0]/2);
+                y= ((p[2] - center[2])+size[2]/2);
+                up = n[1]*Vector3d(0,0,1);
+                right = n[1] * Vector3d(1,0,0);
+            }
+            else if(n[2] == 1 || n[2] == -1){
+                x= ((p[0] - center[0])+size[0]/2);
+                y= ((p[1] - center[1])+size[1]/2);
+                up = n[2]*Vector3d(0,1,0);
+                right = n[2] * Vector3d(1,0,0);
+            }
+            
+            info.texCoordinate[0] = x;
+            info.texCoordinate[1] = y;
+            
+            material->bumpNormal(n, up, right, info, bumpScale);
+        }
         return alpha;
     }
     

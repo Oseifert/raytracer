@@ -22,7 +22,7 @@
 	0.0	1.0	1.0	// diffuse
 	1.0	1.0	1.0	// specular
 	0.0	0.0	0.0	// emissive
-	0.9	0.0	1.0	// kspec ktrans refind
+	1.0	0.0	1.0	// kspec ktrans refind
 
 
 #sphere -n Sphere1 -m mTextured -t --

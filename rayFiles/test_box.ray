@@ -44,7 +44,7 @@
 	0.9	0.0	1.0	// kspec ktrans refind
 
 
-#box -n Box1 -m mWhite   --
+#box -n Box1 -m mWhite -t  --
 	0.0	0.0	0.0	// position
 	1.0	1.0	1.0	// dimensions
 

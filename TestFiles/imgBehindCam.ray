@@ -1,6 +1,6 @@
 #version HMCCS155FALL2002
 #camera
-0.0     5.0     5.0 	// position
+0.0     0.0     5.0 	// position
 0.0    0.0	-1.0 	// facing
 0.0     1.0     0.0 	// up
 20.0 			// halfHeightAngle
@@ -28,12 +28,12 @@
 0.0     0.0         	// kspec, ktrans
 1.0                	// refind
 
-#sphere -m white --
-0.0     5.0    6.0	// position
+#sphere -m black --
+0.0     0.0    7.6	// position
 2.5                	// radius
 
 #sphere -m white --
-0.0     5.0     0	// position
+0.0     0.0     0	// position
 1.5               	// radius
 
 
