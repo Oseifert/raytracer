@@ -1,0 +1,37 @@
+#version HMCCS155FALL2002
+
+/*
+ * one point lights on sphere  with bump/texture
+ * 
+ */
+
+#background	0.0 0.0 0.0
+#ambient	0.0 0.0 0.0
+
+#camera
+	0.0	0.0	3.0	// position
+	0.0	0.0	-1.0	// facing
+	0.0	1.0	0.0	// up
+	30.0			// heightAngle
+
+#ambient
+1.0 1.0 1.0 //color
+
+
+
+
+
+#material -n sun -t ./bump.bmp -u ./bump.bmp --
+	0.1	0.1	0.1	// ambient
+	1.0	1.0	1.0	// diffuse
+	0.0	0.0	0.0	// specular
+	0.0	0.0	0.0	// emissive
+	0.0	0.0	1.0	// kspec ktrans refind
+
+
+#sphere -n Sun -m sun -u 2 --
+	0.0	0.0	0.0	// position
+	1.0			// radius
+
+
+#rayfile_end
